@@ -3,10 +3,10 @@ import { getVideoMetadata } from './video-processor/video-processor';
 import { glob } from 'glob';
 import fs from 'fs-extra';
 
-const getMetadata = async (fileName)=> {
+const getMetadata = async (fileName: string)=> {
     const metadata: any = await getVideoMetadata(fileName);
     let videoType = 'sd';
-    Object.keys(VIDEO_TYPE).forEach((height) => metadata.video.height > (Number(height)*0.9) && (videoType = VIDEO_TYPE[height]));
+    Object.keys(VIDEO_TYPE).forEach((height: string) => metadata.video.height > (Number(height)*0.9) && (videoType = VIDEO_TYPE[height]));
     console.log(`video: ${metadata.video.height} | ${videoType} | ${metadata.parent}`)
     return {videoType, metadata}
 }
@@ -19,9 +19,8 @@ const sortFiles = async (parent = '', target = parent)=> {
     console.log('started');
     for (let tobe of tobeSorted) {
         const metadata: any = await getMetadata(tobe.fullpath());
-        await sleep(150);
         console.log(`Moving: ${tobe.parent.name} -> ${metadata.videoType} : ${tobe.name}`)
-        const targetFolder = `${target}/${tobe.parent.name}/${metadata.videoType}`;
+        const targetFolder: string = `${target}/${tobe.parent.name}/${metadata.videoType}`;
         if (!fs.existsSync(targetFolder)){
             fs.mkdirSync(targetFolder);
         }
@@ -29,8 +28,9 @@ const sortFiles = async (parent = '', target = parent)=> {
             if (err) return console.error(err)
             console.log(`Moved: ${tobe.parent.name} -> ${metadata.videoType} : ${tobe.name}`)
         });
+        await sleep(150);
     }
-    console.log('finished');
+    console.log('finished!!!');
 }
 
 const source = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Hindi/';
