@@ -1,0 +1,22 @@
+{
+  "name": "video-sorter",
+  "version": "1.0.0",
+  "description": "Sort videos according to their size",
+  "main": "src/index.ts",
+  "scripts": {
+    "sorter": "ts-node src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "ffprobe": "^1.1.2",
+    "ffprobe-static": "^3.1.0",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "path": "^0.12.7"
+  }
+}
