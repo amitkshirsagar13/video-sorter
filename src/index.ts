@@ -18,8 +18,9 @@ const sortFiles = async (parent = '', target = parent)=> {
     const tobeSorted = videoFiles.filter((file:any) => !ignoreDirectories.includes(file.parent.name));
     console.log('started');
     for (let tobe of tobeSorted) {
-        const metadata:any = await getMetadata(tobe.fullpath());
-        await sleep(2000);
+        const metadata: any = await getMetadata(tobe.fullpath());
+        await sleep(150);
+        console.log(`Moving: ${tobe.parent.name} -> ${metadata.videoType} : ${tobe.name}`)
         const targetFolder = `${target}/${tobe.parent.name}/${metadata.videoType}`;
         if (!fs.existsSync(targetFolder)){
             fs.mkdirSync(targetFolder);
@@ -32,5 +33,5 @@ const sortFiles = async (parent = '', target = parent)=> {
     console.log('finished');
 }
 
-const source = '/home/poomit/Videos/HD/';
+const source = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Hindi/';
 sortFiles(source);
