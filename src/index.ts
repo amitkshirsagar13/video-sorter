@@ -22,7 +22,7 @@ const sortFiles = async (parent = '', target = parent)=> {
         console.log(`Moving: ${tobe.parent.name} -> ${metadata.videoType} : ${tobe.name}`)
         const targetFolder: string = `${target}/${tobe.parent.name}/${metadata.videoType}`;
         if (!fs.existsSync(targetFolder)){
-            fs.mkdirSync(targetFolder);
+            fs.mkdirSync(targetFolder, { recursive: true });
         }
         fs.move(tobe.fullpath(), `${targetFolder}/${tobe.name}`, function (err) {
             if (err) return console.error(err)
@@ -33,5 +33,6 @@ const sortFiles = async (parent = '', target = parent)=> {
     console.log('finished!!!');
 }
 
-const source = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Hindi/';
-sortFiles(source);
+const source = '/media/poomit/Crucial-X6/ShareMe/media/songs/HD-Songs/Actress/Marathi/';
+const target = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Marathi';
+sortFiles(source, target);
