@@ -33,6 +33,34 @@ const sortFiles = async (parent = '', target = parent)=> {
     console.log('finished!!!');
 }
 
-const source = '/media/poomit/Crucial-X6/ShareMe/media/songs/HD-Songs/Actress/Marathi/';
-const target = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Marathi';
-sortFiles(source, target);
+const source = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Bhojpuri/';
+const target = '/media/poomit/Crucial-X6/ShareMe/media/songs/target/Bhojpurix';
+// sortFiles(source, target);
+
+
+const moveFiles = async (parent = '', target = parent)=> {
+    console.log(parent)
+    const videoFiles = await glob(`${parent}**/{sd,720p,1080p,2k,4k,8k}/*.{mp4,mkv}`, { ignore: '{sd,720p,1080p,2k,4k,8k}/*.mp4', nodir: true, withFileTypes: true });
+    const ignoreDirectories = Object.values({});
+
+    const tobeSorted = videoFiles.filter((file:any) => !ignoreDirectories.includes(file.parent.name));
+    console.log('started');
+    
+    for (let tobe of tobeSorted) {
+        const libraryName = `${tobe.parent.name}`;
+        const folderName = `${tobe.parent.parent.name}`;
+        const targetFolder = `${target}/${libraryName}/${folderName}`;
+        if (!fs.existsSync(targetFolder)){
+            fs.mkdirSync(targetFolder, { recursive: true });
+        }
+        fs.move(tobe.fullpath(), `${targetFolder}/${tobe.name}`, function (err) {
+            if (err) return console.error(err)
+            console.log(`Moved: ${targetFolder} -> : ${tobe.name}`)
+        });
+        await sleep(150);
+
+    }
+    console.log('finished!!!');
+}
+
+moveFiles(source, target);
